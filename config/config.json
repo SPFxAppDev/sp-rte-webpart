@@ -1,0 +1,19 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "texteditor-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/texteditor/TexteditorWebPart.js",
+          "manifest": "./src/webparts/texteditor/TexteditorWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
+    "RteStringsWebPartStrings": "lib/webparts/rteStrings/loc/{locale}.js"
+  }
+}

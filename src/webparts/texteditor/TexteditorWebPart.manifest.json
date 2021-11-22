@@ -19,8 +19,9 @@
     "group": { "default": "SPFxAppDev" },
     "title": { "default": "Texteditor" },
     "description": { "default": "Texteditor description" },
-    "officeFabricIconFontName": "Page",
+    "officeFabricIconFontName": "TextField",
     "properties": {
+      "content": ""
     }
   }]
 }

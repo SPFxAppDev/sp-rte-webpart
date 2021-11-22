@@ -34,6 +34,10 @@ export default class TexteditorWebPart extends SPFxAppDevClientSideWebPart<IText
 
     public render(): void {
 
+      if(!this.helper.functions.isset(this.properties)) {
+        this.properties.content = "";
+      }
+      
       if(!this.IsPageInEditMode) {
         this.renderDisplayMode();
         return;

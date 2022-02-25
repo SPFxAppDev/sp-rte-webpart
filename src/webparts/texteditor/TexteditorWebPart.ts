@@ -37,7 +37,7 @@ export default class TexteditorWebPart extends SPFxAppDevClientSideWebPart<IText
       if(!this.helper.functions.isset(this.properties)) {
         this.properties.content = "";
       }
-      
+
       if(!this.IsPageInEditMode) {
         this.renderDisplayMode();
         return;
@@ -113,7 +113,7 @@ export default class TexteditorWebPart extends SPFxAppDevClientSideWebPart<IText
               },
               {
                 menuText: "Relative Site-Url",
-                rteContent: "{Site.Url}"
+                rteContent: "{Site.RelativeUrl}"
               }],
               placeholderResolver: [
                 new SPPlaceholderResolver(this.spfxContext.pageContext),

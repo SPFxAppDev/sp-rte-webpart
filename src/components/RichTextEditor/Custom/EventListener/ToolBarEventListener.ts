@@ -7,10 +7,10 @@ import { CustomToolbar, ICustomToolbarProps } from '../Toolbar/CustomToolbar';
 export class ToolBarEventListener extends EventListenerBase {
     public richTextproperties: ICustomRichTextProps = null;
     
-    public Execute(name: string, lastEventResult: IEventListenerResult|null, ...args: any[]): ToolBarEventListener {
+    public Execute(name: string, lastEventResult: IEventListenerResult|null, quill: any): ToolBarEventListener {
         const element: React.ReactElement<ICustomToolbarProps> = React.createElement(
             CustomToolbar, {
-                Editor: args[0][0],
+                Editor: quill,
                 richTextproperties: this.richTextproperties
             }
         );

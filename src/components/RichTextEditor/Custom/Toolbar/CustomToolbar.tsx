@@ -6,6 +6,7 @@ import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import styles from '../../PnP/RichText.module.scss';
 import customStyles from './Toolbar.module.scss';
 import { ICustomRichTextProps, IPlaceHolderMenuItemProps, IReusableContentItem } from '../RichText';
+import { isNullOrEmpty } from '@spfxappdev/utility';
 
 export interface ICustomToolbarProps {
     Editor: PnPRichText;
@@ -52,7 +53,7 @@ export class CustomToolbar extends React.Component<ICustomToolbarProps> {
                 </TooltipHost>
                 }
 
-            {this.props.richTextproperties.reusableContentProps.show &&
+            {this.props.richTextproperties.reusableContentProps.show && !isNullOrEmpty(reusableContentItems[0]) &&
               <TooltipHost content={"Insert Reusable content"}
                            id="reusable-richtextbutton"
                            calloutProps={{ gapSpace: 0 }}>

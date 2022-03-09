@@ -1,6 +1,6 @@
 {
   "name": "texteditor",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "private": true,
   "main": "lib/index.js",
   "scripts": {
@@ -18,10 +18,10 @@
     "@microsoft/sp-property-pane": "1.12.1",
     "@microsoft/sp-webpart-base": "1.12.1",
     "@pnp/spfx-controls-react": "^3.4.1",
-    "@spfxappdev/framework": "^1.0.0",
-    "@spfxappdev/logger": "^1.0.2",
-    "@spfxappdev/storage": "^1.0.0",
-    "@spfxappdev/utility": "^1.0.0",
+    "@spfxappdev/framework": "^1.0.7",
+    "@spfxappdev/logger": "^1.0.3",
+    "@spfxappdev/storage": "^1.0.1",
+    "@spfxappdev/utility": "^1.1.0",
     "office-ui-fabric-react": "7.156.0",
     "react": "16.9.0",
     "react-dom": "16.9.0"

@@ -447,7 +447,8 @@ export class RichText extends React.Component<IRichTextProps, IRichTextState> {
       return (
         <>
         <div className={`ql-editor ${styles.richtext} ${this.props.className || ''}`}
-          dangerouslySetInnerHTML={{ __html: text }}>
+          dangerouslySetInnerHTML={{ __html: text }}
+          style={this.props.style}>
         </div>
         {EventHandler.Fire("OnAfterRTERenderInDisplayMode", this)}
         </>

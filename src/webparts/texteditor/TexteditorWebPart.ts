@@ -13,6 +13,12 @@ import { SPHttpClient, SPHttpClientResponse} from '@microsoft/sp-http';
 import * as strings from 'RteStringsWebPartStrings';
 import ManageGreeting, { IManageGreetingProps } from './components/ManageGreeting';
 import { GreetingPlaceholderResolver } from './GreetingPlaceholderResolver';
+import { PropertyPaneAboutWebPart } from '../PropertyPaneAboutWebPart';
+import {
+  ThemeProvider,
+  ThemeChangedEventArgs,
+  IReadonlyTheme,
+} from '@microsoft/sp-component-base';
 
 export interface IGreeting {
   fromHr: number;
@@ -34,11 +40,24 @@ export default class TexteditorWebPart extends SPFxAppDevClientSideWebPart<IText
 
     private reusableItems: IReusableContentItem[] = [];
 
+    private themeProvider: ThemeProvider;
+    private themeVariant: IReadonlyTheme | undefined;
+
+    private handleThemeChangedEvent(args: ThemeChangedEventArgs): void {
+      this.themeVariant = args.theme;
+      this.render();
+    }
+
     public onInit(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
           super.onInit().then(async () => {
             this.currentUser = await CurrentUserProfile.Get(this.spfxContext);
             this.properties.greetingSettings = this.properties.greetingSettings||[];
+            this.themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
+            // If it exists, get the theme variant
+            this.themeVariant = this.themeProvider.tryGetTheme();
+            // Register a handler to be notified if the theme variant changes
+            this.themeProvider.themeChangedEvent.add(this, this.handleThemeChangedEvent);
             return resolve();
           });
         });
@@ -73,6 +92,7 @@ export default class TexteditorWebPart extends SPFxAppDevClientSideWebPart<IText
       const element: React.ReactElement<IRichTextComponentProps> = React.createElement(
         RichText,
         {
+          themeVariant: this.themeVariant,
           rteProps: {
             isEditMode: this.IsPageInEditMode,
             value: this.properties.content,
@@ -98,6 +118,7 @@ export default class TexteditorWebPart extends SPFxAppDevClientSideWebPart<IText
       const element: React.ReactElement<IRichTextComponentProps> = React.createElement(
         RichText,
         {
+          themeVariant: this.themeVariant,
           rteProps: {
             isEditMode: this.IsPageInEditMode,
             value: this.properties.content,
@@ -194,13 +215,29 @@ export default class TexteditorWebPart extends SPFxAppDevClientSideWebPart<IText
                   })
                 ]
               },
-              // {  
-              //   groupName: strings.WebPartPropertyGroupAbout,
-              //   groupFields: [
-                  
-              //   ]
-              // }
-            ]
+              {  
+                groupName: strings.WebPartPropertyGroupAbout,
+                groupFields: [
+                  PropertyPaneAboutWebPart({
+                    key: `bbc94d63-5630-4077-b6a8-6b8d37551766_${this.context.instanceId}`,
+                    html: `
+                    <div>
+                      <h3>Author</h3> 
+                      <a href="https://spfx-app.dev/" data-interception="off" target="_blank">SPFx-App.dev</a>
+                      <h3>Version</h3>
+                      ${this.context.manifest.version}
+                      <h3>Web Part Instance id</h3>
+                      ${this.context.instanceId}
+                    </div>
+                    <div>
+                      <a href="https://github.com/SPFxAppDev/sp-rte-webpart" target="_blank">More info</a>
+                    </div>
+                    `
+                  })    
+                ]
+              }
+            ],
+            // displayGroupsAsAccordion: true,
           }
         ]
       };

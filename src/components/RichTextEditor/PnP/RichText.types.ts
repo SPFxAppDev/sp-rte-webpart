@@ -38,6 +38,8 @@ export interface IRichTextProps {
    * Returns the text that will be inserted in the rich text control.
    */
   onChange?: (text: string) => string;
+
+  style?: React.CSSProperties;
 }
 
 export interface StyleOptions {

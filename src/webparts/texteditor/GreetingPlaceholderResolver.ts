@@ -28,9 +28,6 @@ export class GreetingPlaceholderResolver implements IPlaceholderResolver {
             return;
         }
 
-        this.placeHolderData.Greeting = setting.text;
-
-        console.log(this.placeHolderData);
-        
+        this.placeHolderData.Greeting = setting.text;        
     }
 }

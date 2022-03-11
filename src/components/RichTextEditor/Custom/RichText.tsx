@@ -7,6 +7,9 @@ import { issetDeep, isFunction } from '@spfxappdev/utility';
 import { EventHandler } from '@spfxappdev/framework/lib/spfxframework/events/EventHandler';
 import { ToolBarEventListener } from './EventListener/ToolBarEventListener';
 import { QuillRegisterEventListener } from './EventListener/QuillRegisterEventListener';
+import {
+    IReadonlyTheme,
+  } from '@microsoft/sp-component-base';
 
 export interface ISPFxAppDevRichtTextToolbarItemProps {
     show: boolean;
@@ -40,6 +43,7 @@ export interface ICustomRichTextProps extends IRichTextProps {
 }
 
 export interface IRichTextComponentProps {
+    themeVariant: IReadonlyTheme | undefined;
     rteProps: ICustomRichTextProps;
 }
 
@@ -68,10 +72,12 @@ export class RichText extends React.Component<IRichTextComponentProps, {}> {
         if(!this.props.rteProps.isEditMode) {
             this.props.rteProps.value = this.placeholderHandler.Replace(this.props.rteProps.value);
         }
+
+        const { semanticColors }: IReadonlyTheme = this.props.themeVariant;
     
         return(
           <>
-          <PnPRichText {...this.props.rteProps} onChange={(text: string) => {
+          <PnPRichText {...this.props.rteProps} style={{ backgroundColor: semanticColors.bodyBackground, color: semanticColors.bodyText }} onChange={(text: string) => {
               if(isFunction(this.originalOnChangeFn)) {
                   text = this.originalOnChangeFn(text);
               }

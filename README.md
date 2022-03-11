@@ -28,7 +28,8 @@ spfxappdev-texteditor.sppkg | Seryoga https://spfx-app.dev/
 
 Version|Date|Comments
 -------|----|--------
-1.0| November 22, 2021| Initial release
+1.0.0| November 22, 2021| Initial release
+1.1.0| March 11, 2022| Added "Greeting" Text Feature and allows theme support and full width section
 
 
 ---

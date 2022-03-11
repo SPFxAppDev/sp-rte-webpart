@@ -3,7 +3,7 @@
   "solution": {
     "name": "SPFx app dev Texteditor",
     "id": "68cf7c3d-d9fb-4ec5-ad09-949367acab6c",
-    "version": "1.0.0.1",
+    "version": "1.1.0.0",
     "includeClientSideAssets": true,
     "isDomainIsolated": false,
     "developer": {

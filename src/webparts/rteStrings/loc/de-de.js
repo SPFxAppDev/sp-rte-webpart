@@ -1,5 +1,16 @@
 define([], function () {
     return {
+        "WebPartPropertyGroupAbout": "Über",
+        "WebPartPropertyGroupGreetings": "Begrüßung",
+        "WebPartManageGreetingTextButtonText": "Begrüßung verwalten",
+        "SaveLabel": "Speichern",
+        "CancelLabel": "Abbrechen",
+        "AddLabel": "Hinzufügen",
+        "GreetingTextLabel": "Begrüßungstext",
+        "FromHourLabel": "Von Stunde",
+        "FromMinuteLabel": "Von Minute",
+        "ToHourLabel": "Bis Stunde",
+        "ToMinuteLabel": "Bis Minute",
         "CUSTOM_HeaderNormalText": "Standardtext",
         "CUSTOM_HeaderH2": "Überschrift 1",
         "CUSTOM_HeaderH3": "Überschrift 2",
@@ -82,7 +93,7 @@ define([], function () {
         "CUSTOM_StandardColorBlue": "Blau",
         "CUSTOM_StandardColorDarkblue": "Dunkelblau",
         "CUSTOM_StandardColorPurple": "Lila",
-        "CUSTOM_InsertImageTitle": "",
-        "CUSTOM_ImageTitle": ""
+        "CUSTOM_InsertImageTitle": "Bild einfügen",
+        "CUSTOM_ImageTitle": "Bild"
     };
 });

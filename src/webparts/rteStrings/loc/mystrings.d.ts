@@ -1,4 +1,15 @@
 declare interface IRteStringsWebPartStrings {
+  WebPartPropertyGroupAbout: string;
+  WebPartPropertyGroupGreetings: string;
+  WebPartManageGreetingTextButtonText: string;
+  SaveLabel: string;
+  CancelLabel: string;
+  AddLabel: string;
+  GreetingTextLabel: string;
+  FromHourLabel: string;
+  FromMinuteLabel: string;
+  ToHourLabel: string;
+  ToMinuteLabel: string;
   //#region RichText
 CUSTOM_HeaderNormalText: string;
 CUSTOM_HeaderH2: string;

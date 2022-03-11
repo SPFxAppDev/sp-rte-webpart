@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
-import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
+import { IPropertyPaneConfiguration, PropertyPaneButton } from '@microsoft/sp-property-pane';
 import { ISPFxAppDevClientSideWebPartProps, SPFxAppDevClientSideWebPart } from '@spfxappdev/framework';
 import { IReusableContentItem, RichText } from '@src/components/RichTextEditor/Custom/RichText';
 import { IRichTextComponentProps } from '@src/components/RichTextEditor/Custom/RichText';
@@ -10,10 +10,21 @@ import { UserProfilePlaceholderResolver } from './UserProfilePlaceholderResolver
 // import { SPPlaceholderResolver  } from '@spfxappdev/framework/lib/spfxframework/placeholder';
 import { CurrentUserProfile, PortalUser } from '@spfxappdev/framework/lib/spfxframework/sp/userprofile/CurrentUserProfile';
 import { SPHttpClient, SPHttpClientResponse} from '@microsoft/sp-http';
+import * as strings from 'RteStringsWebPartStrings';
+import ManageGreeting, { IManageGreetingProps } from './components/ManageGreeting';
+import { GreetingPlaceholderResolver } from './GreetingPlaceholderResolver';
 
+export interface IGreeting {
+  fromHr: number;
+  fromMinutes: number;
+  toHr: number;
+  toMinutes: number;
+  text: string;
+}
 
 export interface ITexteditorWebPartProps extends ISPFxAppDevClientSideWebPartProps {
   content: string;
+  greetingSettings: IGreeting[];
 }
 
 
@@ -27,6 +38,7 @@ export default class TexteditorWebPart extends SPFxAppDevClientSideWebPart<IText
         return new Promise<void>((resolve, reject) => {
           super.onInit().then(async () => {
             this.currentUser = await CurrentUserProfile.Get(this.spfxContext);
+            this.properties.greetingSettings = this.properties.greetingSettings||[];
             return resolve();
           });
         });
@@ -35,7 +47,10 @@ export default class TexteditorWebPart extends SPFxAppDevClientSideWebPart<IText
     public render(): void {
 
       if(!this.helper.functions.isset(this.properties)) {
-        this.properties.content = "";
+        (this.properties as any) = {
+          content: "",
+          greetingSettings: []
+        };
       }
 
       if(!this.IsPageInEditMode) {
@@ -66,7 +81,8 @@ export default class TexteditorWebPart extends SPFxAppDevClientSideWebPart<IText
               menuItems: [],
               placeholderResolver: [
                 new SPPlaceholderResolver(this.spfxContext.pageContext),
-                new UserProfilePlaceholderResolver(this.currentUser)
+                new UserProfilePlaceholderResolver(this.currentUser),
+                new GreetingPlaceholderResolver(this.properties.greetingSettings)
               ]
             }
           }
@@ -91,9 +107,14 @@ export default class TexteditorWebPart extends SPFxAppDevClientSideWebPart<IText
             },
             placeholderProps: {
               show: true,
-              menuItems: [{
+              menuItems: [
+              {
                 menuText: "UserProfile Properties",
                 rteContent: "{UserProfile.ProfilePropertyName}"
+              },
+              {
+                menuText: "Greeting text",
+                rteContent: "{Greeting}"
               },
               {
                 menuText: "Absolute Web-URL",
@@ -117,7 +138,8 @@ export default class TexteditorWebPart extends SPFxAppDevClientSideWebPart<IText
               }],
               placeholderResolver: [
                 new SPPlaceholderResolver(this.spfxContext.pageContext),
-                new UserProfilePlaceholderResolver(this.currentUser)
+                new UserProfilePlaceholderResolver(this.currentUser),
+                new GreetingPlaceholderResolver(this.properties.greetingSettings)
               ]
             },
             reusableContentProps: {
@@ -143,6 +165,43 @@ export default class TexteditorWebPart extends SPFxAppDevClientSideWebPart<IText
     protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
       return {
         pages: [
+          {
+            groups: [
+              {
+                groupName: strings.WebPartPropertyGroupGreetings,
+                groupFields: [
+                  PropertyPaneButton(null, {
+                    text: strings.WebPartManageGreetingTextButtonText,
+                    onClick: (val: any) => {
+                      const dummyElement: HTMLDivElement = document.createElement("div");
+                      document.body.appendChild(dummyElement);
+    
+                      const element: React.ReactElement<IManageGreetingProps> = React.createElement(ManageGreeting, {
+                        greetingSettings: this.properties.greetingSettings||[],
+                        onDismiss: () => {
+                          dummyElement.remove();
+                        },
+                        onGreetingChanged: (greetingSettings: IGreeting[]) => {
+                          dummyElement.remove();
+                          this.properties.greetingSettings = greetingSettings;
+                        }
+                      });
+    
+                      ReactDom.render(element, dummyElement);
+                      
+                      return null;
+                    }
+                  })
+                ]
+              },
+              // {  
+              //   groupName: strings.WebPartPropertyGroupAbout,
+              //   groupFields: [
+                  
+              //   ]
+              // }
+            ]
+          }
         ]
       };
     }
